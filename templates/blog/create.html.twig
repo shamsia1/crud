@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
+{% block body%}
+<h1>creer une article</h1>
+
+ {{ form_start(formArticle) }}
+
+   {{ form_widget(formArticle) }}
+
+   <button type="submit" class="btn btn-success">
+   	
+   	{% if editMode %}
+
+   	Enregistrer les mofification
+
+   	{% else %}
+
+   	Ajouter un article
+
+   	{% endif%}
+   </button>
+
+    <button type="submit" class="btn btn-danger">delete</button>
+
+
+{% endblock %}
