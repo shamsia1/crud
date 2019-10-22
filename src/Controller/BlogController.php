@@ -43,7 +43,6 @@ class BlogController extends AbstractController
     /**
     *@Route("/blog/new", name="blog_create")
     *@Route("/blog/{id}/edit", name="blog_edit")
-    *@Route("/blog/{id}/delete", name="blog_delete")
     */
     
     public function form(Article $article = null, Request $request,ObjectManager $manager){
@@ -82,9 +81,9 @@ class BlogController extends AbstractController
     	return $this->render('blog/create.html.twig', [
     		'formArticle' => $form->createView(),
     		'editMode' => $article->getId() !== null
+        
     	]);
     }
-
 
 
     /**
@@ -101,6 +100,19 @@ class BlogController extends AbstractController
     	]);
     }
 
+
+     /**
+     * @Route("/blog/{id}/delete", name="article_delete")
+     */
+    public function delete(Request $request, Article $article): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($article);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('blog_show');
+    }
 
 
 
